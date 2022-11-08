@@ -12,14 +12,30 @@ function App() {
 
   const handleAddUser = (event) => {
     event.preventDefault();
+    const name = event.target.name.value;
+    const email = event.target.email.value;
+    const user = { name, email };
+    console.log(user);
+
+    fetch('http://localhost:5000/users', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+    event.target.reset();
   };
 
   return (
     <div className="App">
       <form onSubmit={handleAddUser}>
-        <input type="text" name="name" />
+        <input type="text" name="name" placeholder="Your Name" />
         <br />
-        <input type="email" name="email" id="" />
+        <input type="email" name="email" id="" placeholder="Your Email" />
         <br />
         <button type="submit">Add User</button>
       </form>
